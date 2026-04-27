@@ -12,8 +12,12 @@ function getTimestamp() {
 export function generateReport(data, testName = "report") {
   const timestamp = getTimestamp();
 
+  const reportPath = `Load_tests/reports/${testName}-${timestamp}.html`;
+
+  console.log(`Generating HTML report at: ${reportPath}`);
+
   return {
-    [`Load_tests/reports/${testName}-${timestamp}.html`]: htmlReport(data),
+    [reportPath]: htmlReport(data),   // ✅ this creates the file
     stdout: textSummary(data, { indent: " ", enableColors: true }),
   };
 }
