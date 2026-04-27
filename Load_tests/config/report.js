@@ -1,6 +1,7 @@
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 
+// Generate timestamp like: 2026-04-27_21-30-10
 function getTimestamp() {
   const now = new Date();
   const pad = (n) => n.toString().padStart(2, '0');
@@ -12,12 +13,25 @@ function getTimestamp() {
 export function generateReport(data, testName = "report") {
   const timestamp = getTimestamp();
 
-  const reportPath = `Load_tests/reports/${testName}-${timestamp}.html`;
+  // ✅ unique file per run (important for "all")
+  const fileName = `${testName}-${timestamp}.html`;
 
-  console.log(`Generating HTML report at: ${reportPath}`);
+  // ✅ always inside Jenkins workspace
+  const reportPath = `Load_tests/reports/${fileName}`;
+
+  console.log(`📊 Generating HTML report: ${reportPath}`);
 
   return {
-    [reportPath]: htmlReport(data),   // ✅ this creates the file
-    stdout: textSummary(data, { indent: " ", enableColors: true }),
+    // main HTML report
+    [reportPath]: htmlReport(data),
+
+    // optional: overwrite latest version for easy access
+    [`Load_tests/reports/${testName}.html`]: htmlReport(data),
+
+    // console output
+    stdout: textSummary(data, {
+      indent: " ",
+      enableColors: true,
+    }),
   };
 }
