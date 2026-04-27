@@ -13,22 +13,23 @@ function getTimestamp() {
 export function generateReport(data, testName = "report") {
   const timestamp = getTimestamp();
 
-  // ✅ unique file per run (important for "all")
+  // Unique file per run
   const fileName = `${testName}-${timestamp}.html`;
 
-  // ✅ always inside Jenkins workspace
-  const reportPath = `Load_tests/reports/${fileName}`;
+  // ✅ RELATIVE PATH (works in Jenkins + local)
+  const reportDir = "Load_tests/reports";
+  const reportPath = `${reportDir}/${fileName}`;
 
   console.log(`📊 Generating HTML report: ${reportPath}`);
 
   return {
-    // main HTML report
+    // Timestamped report (history)
     [reportPath]: htmlReport(data),
 
-    // optional: overwrite latest version for easy access
-    [`Load_tests/reports/${testName}.html`]: htmlReport(data),
+    // Latest report (always overwritten)
+    [`${reportDir}/${testName}.html`]: htmlReport(data),
 
-    // console output
+    // Console summary
     stdout: textSummary(data, {
       indent: " ",
       enableColors: true,
