@@ -1,0 +1,10 @@
+name_on_card,card_number,cvc,expiry_month,expiry_year
+John Doe,4.11111E+15,123,12,2027
+Jane Smith,5.55556E+15,456,11,2026
+Ali Ahmad,4E+15,789,10,2028
+Sara Johnson,4.11111E+15,321,9,2029
+Michael Brown,5.55556E+15,654,8,2027
+Omar Khaled,4E+15,852,7,2030
+Lina Hassan,4.01289E+15,147,6,2028
+David Wilson,4.22222E+12,963,5,2029
+Nour Salem,3.78282E+14,258,4,2031
